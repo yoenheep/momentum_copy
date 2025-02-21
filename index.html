@@ -11,19 +11,30 @@
   <body>
     <div id="all">
       <!--랜덤 배경화면-->
-      <div id="rightTop"><!--현재 날씨 및 위치 (오른쪽상단)--></div>
+      <div id="rightTop">
+        <!--현재 날씨 및 위치 (오른쪽상단)-->
+        <img id="todayImg" />
+        <div>
+          <p id="temp"></p>
+          <p id="where">Korea</p>
+        </div>
+      </div>
       <div id="center">
         <div>
           <p id="currentTime"></p>
-          <p id="todayText">
-            아무말아무말아무, <span id="userName">user</span>
-          </p>
+          <span id="todayText"></span>
+          <div>
+            <span id="userName">
+              <input type="text" id="inputName" autocomplete="off" />
+            </span>
+            <span>.</span>
+          </div>
           <!--메인 날짜, 밑에 메모(시간 , 문구 2개 중 랜덤으로), 메모 옆에 인풋으로 이름작성가능한 곳 [더블클릭 수정]-->
         </div>
         <!--오늘 투두 하나생성-->
         <div id="todayTodo">
           <p>What is your main goal for today?</p>
-          <p><input type="text" id="todayGoal" /></p>
+          <p><input type="text" id="todayGoal" autocomplete="off" /></p>
         </div>
       </div>
       <div id="centerBottom">
@@ -33,7 +44,6 @@
         <p id="CBman">- 누군가 명언쓴 사람 -</p>
       </div>
       <div id="leftBottom">
-        <i class="fa-light fa-image"></i>
         <!--사진 아이콘을 누르면 배경사진만 보이도록(왼쪽하단)-->
       </div>
       <div id="rightBottom">

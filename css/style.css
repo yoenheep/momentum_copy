@@ -13,6 +13,7 @@
   position: relative;
 }
 
+/*center*/
 #center {
   height: 100%;
   color: white;
@@ -27,11 +28,31 @@
 #currentTime {
   font-size: 40px;
 }
+/*인사,유저이름*/
 #todayText {
   font-size: 15px;
 }
+#userName {
+  color: white;
+  font-weight: 400;
+  font-size: 15px;
+}
+#inputName {
+  text-align: center;
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+  border-bottom: 2px white solid;
+  font-size: 15px;
+  color: white;
+  width: 50px;
+}
+#userName + span {
+  margin-left: 0;
+  display: inline;
+}
+/*1일투두*/
 #todayTodo {
-  font-size: 11px;
+  font-size: 12px;
   width: 70%;
 }
 #todayGoal {
@@ -50,6 +71,7 @@ input:focus {
   box-shadow: none !important;
 }
 
+/*centerBottom*/
 #centerBottom {
   position: absolute;
   color: white;
@@ -63,9 +85,57 @@ input:focus {
   display: none;
 }
 
-#leftBottom,
+/*rightTop*/
+#rightTop {
+  position: absolute;
+  width: 50px;
+  height: 30px;
+  color: white;
+  display: flex;
+  justify-content: flex-end;
+  top: 10px;
+  right: 10px;
+}
+#rightTop img {
+  margin: 5px;
+  height: 17px;
+  width: 17px;
+}
+#rightTop div {
+  text-align: center;
+  height: 100%;
+  width: 25px;
+}
+#rightTop #temp {
+  font-size: 13px;
+  font-weight: 500;
+}
+#rightTop #where {
+  font-size: 8px;
+}
+
+/*leftBottom*/
+#leftBottom {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: 10px;
+  left: 10px;
+  background-image: url(../img/picture_icon.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+/*rightBottom*/
 #rightBottom {
   position: absolute;
   width: 20px;
   height: 20px;
+  bottom: 10px;
+  right: 10px;
+  background-image: url(../img/check_icon.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
