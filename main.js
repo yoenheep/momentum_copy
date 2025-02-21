@@ -37,8 +37,8 @@ $(document).ready(function () {
     if (userName != "") {
       $("#inputName").remove();
       $("#userName").text(userName);
-      blockUserName();
     }
+    blockUserName();
   }
   //username 더블클릭시
   $("#userName").on("dblclick", function () {
@@ -61,7 +61,7 @@ $(document).ready(function () {
   // username이 2줄일 경우
   function blockUserName() {
     let nameDiv = $("#todayText").next("div");
-    if ($("#userName").height() > $("#todayText").height()) {
+    if ($("#userName").height() > $("#todayText").height() + 3) {
       // 두 줄 이상인 경우
       nameDiv.css({
         display: "block",

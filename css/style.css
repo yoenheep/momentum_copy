@@ -25,6 +25,9 @@
 #center div {
   text-align: center;
 }
+#centerUp {
+  width: 70%;
+}
 #currentTime {
   font-size: 40px;
 }
