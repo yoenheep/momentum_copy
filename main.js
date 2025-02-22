@@ -1,12 +1,40 @@
 $(document).ready(function () {
-  nowTime();
-  randomBG();
-  getUserName();
+  const miniTodos = JSON.parse(localStorage.getItem("miniTodos")) || [];
+  // todos 출력
+  miniTodos.forEach((i) => {
+    addTodo(i.check, i.content);
+  });
 
-  function randomBG() {
+  nowTime();
+  randomObject();
+  getUserName();
+  getDay();
+  getWeather();
+
+  // 랜덤 명언, 배경
+  function randomObject() {
     let ran = Math.floor(Math.random() * 3);
-    let bg = [`url(./img/bg0.jpg)`, `url(./img/bg1.jpg)`, `url(./img/bg2.jpg)`];
-    $("#all").css("background-image", bg[ran]);
+    let object = [
+      {
+        bg: "./img/bg0.jpg",
+        saying: "Night is the other half of life, and the better half.",
+        who: "Johann Wolfgang von Goethe",
+      },
+      {
+        bg: "./img/bg1.jpg",
+        saying: "The darkest hour has only sixty minutes.",
+        who: "Morris Mandel",
+      },
+      {
+        bg: "./img/bg2.jpg",
+        saying: "It is not the length of life, but the depth of life.",
+        who: "Ralph Waldo Emerson",
+      },
+    ];
+
+    $("#all").css("background-image", `url(${object[ran].bg})`);
+    $("#saying").text(object[ran].saying);
+    $("#CBman span").text(object[ran].who);
   }
 
   // 시간 가져오기
@@ -99,6 +127,118 @@ $(document).ready(function () {
     },
   });
 
+  // rightBottom 체크시
+  $("#rightBottom").on("click", function () {
+    if ($("#popUp").is(":visible")) {
+      // 팝업이 보이는 상태면 fadeOut 후 visible 클래스 제거
+      $("#popUp").fadeOut(200, function () {
+        $(this).removeClass("visible");
+      });
+    } else {
+      // 팝업이 숨겨진 상태면 visible 클래스 먼저 추가하고 fadeIn
+      $("#popUp").addClass("visible").hide().fadeIn(200);
+    }
+  });
+  // 클릭이벤트 조절
+  $("#popUp").on("click", function (e) {
+    e.stopPropagation();
+  });
+
+  // todo
+  function getDay() {
+    let now = new Date();
+    let year = now.getFullYear();
+    let month = ("0" + (now.getMonth() + 1)).slice(-2);
+    let day = ("0" + now.getDate()).slice(-2);
+
+    $("#todoDay").text(`${year}/${month}/${day}`);
+  }
+
+  // todo 추가
+  $(document).on("keyup", "#todoInput", function (key) {
+    if (key.keyCode == 13) {
+      let newTodo = $(this).val().trim();
+      todoArray(newTodo);
+    }
+  });
+
+  // Li 생성
+  function addTodo(check, todo) {
+    const newLi = $("<li>").addClass("todo");
+    const checkBox = $("<input>")
+      .attr({
+        type: "checkbox",
+        class: "todoCheck",
+      })
+      .prop("checked", check);
+    const span = $("<span>").addClass("todoSpan").text(todo);
+    const delBtn = $("<div>").addClass("todoDelete").text("✖");
+
+    newLi.append(checkBox, span, delBtn);
+    $("#todoList").append(newLi);
+    $("#todoInput").val("");
+    todoChcked();
+  }
+
+  // 투두객체 생성
+  function todoArray(content) {
+    if (content === "") {
+      return;
+    }
+
+    let object = {
+      check: false,
+      content: content,
+    };
+
+    // 로컬 스토리지 및 배열에 추가
+    miniTodos.push(object);
+    localStorage.setItem("miniTodos", JSON.stringify(miniTodos));
+    addTodo(false, content);
+    console.log(miniTodos);
+  }
+
+  $("#todoList").on(
+    {
+      mouseenter: function (e) {
+        e.stopPropagation();
+        $(this).find(".todoDelete").fadeIn(300);
+      },
+      mouseleave: function (e) {
+        e.stopPropagation();
+        $(this).find(".todoDelete").fadeOut(300);
+      },
+    },
+    ".todo"
+  );
+
+  //투두삭제
+  $("#todoList").on("click", ".todoDelete", function () {
+    let index = $(this).closest("li").index();
+    miniTodos.splice(index, 1);
+    $(this).closest("li").remove();
+    localStorage.setItem("miniTodos", JSON.stringify(miniTodos));
+  });
+
+  // 체크버튼 눌렀을 때 (이벤트 위임 사용)
+  $("#todoList").on("click", ".todoCheck", function () {
+    let index = $(this).closest("li").index();
+    miniTodos[index].check = $(this).is(":checked");
+    localStorage.setItem("miniTodos", JSON.stringify(miniTodos));
+    todoChcked();
+  });
+
+  //체크 함수
+  function todoChcked() {
+    $("#todoList .todoCheck").each(function () {
+      if ($(this).is(":checked")) {
+        $(this).siblings(".todoSpan").addClass("checked");
+      } else {
+        $(this).siblings(".todoSpan").removeClass("checked");
+      }
+    });
+  }
+
   // 날씨 API
   function getWeather() {
     navigator.geolocation.getCurrentPosition(async (position) => {
@@ -116,5 +256,4 @@ $(document).ready(function () {
       console.log(data);
     });
   }
-  getWeather();
 });

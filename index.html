@@ -38,16 +38,26 @@
         </div>
       </div>
       <div id="centerBottom">
-        “It’s easy in the world to live after the world’s opinion; it’s easy in
-        solitude to live after our own; but great people keep with the sweet
-        independence of solitude in the midst of a crowd.”
-        <p id="CBman">- 누군가 명언쓴 사람 -</p>
+        <p id="saying"></p>
+        <p id="CBman">- <span>누군가 명언쓴 사람</span> -</p>
       </div>
       <div id="leftBottom">
         <!--사진 아이콘을 누르면 배경사진만 보이도록(왼쪽하단)-->
       </div>
       <div id="rightBottom">
         <!--버튼을 누르면 간단한 투두리스트가 나오도록 : 로컬스토리지해야됨..(오른쪽하단)-->
+        <div id="popUp">
+          <div id="todoTop">
+            <span id="toDoTitle">ToDoList</span>
+            <span id="todoDay"></span>
+          </div>
+          <div id="todoContent">
+            <ul id="todoList"></ul>
+          </div>
+          <div id="todoFooter">
+            <input type="text" id="todoInput" placeholder="New Task" />
+          </div>
+        </div>
       </div>
     </div>
   </body>
