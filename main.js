@@ -198,7 +198,7 @@ $(document).ready(function () {
     console.log(miniTodos);
   }
 
-  $("#todoList").on(
+  $("#todoList, #mainTodo").on(
     {
       mouseenter: function (e) {
         e.stopPropagation();
@@ -237,6 +237,48 @@ $(document).ready(function () {
         $(this).siblings(".todoSpan").removeClass("checked");
       }
     });
+
+    $("#todayTodo .todoCheck").on("change", function () {
+      if ($(this).is(":checked")) {
+        $(this).siblings(".todoSpan").addClass("checked");
+      } else {
+        $(this).siblings(".todoSpan").removeClass("checked");
+      }
+    });
+  }
+
+  $("#mainTodo").on("keyup", "#todayGoal", function (key) {
+    if (key.keyCode == 13) {
+      let todayTodo = $("#todayGoal").val().trim();
+      if (todayTodo == "") {
+        return;
+      }
+
+      todayLocal(todayTodo);
+    }
+  });
+
+  function todayLocal(todo) {
+    let day = new Date();
+    let object = { check: false, content: todo, when: day.getDate };
+    localStorage.setItem("todayTodo", object);
+    addToday(false, todo);
+  }
+
+  function addToday(check, todo) {
+    const checkBox = $("<input>")
+      .attr({
+        type: "checkbox",
+        class: "todoCheck",
+      })
+      .prop("checked", check);
+    const span = $("<span>").addClass("todoSpan").text(todo);
+    const delBtn = $("<div>").addClass("todoDelete").text("✖");
+
+    $("#todayTodo .todo").append(checkBox, span, delBtn);
+    $("#todayGoal").remove();
+    $("#today").text("Today");
+    todoChcked();
   }
 
   // 날씨 API
