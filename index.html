@@ -3,10 +3,64 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script defer src="main.js"></script>
     <link rel="stylesheet" href="./css/style.css" />
     <title>New Momentum</title>
   </head>
-  <body></body>
+  <body>
+    <div id="all">
+      <!--랜덤 배경화면-->
+      <div id="rightTop">
+        <!--현재 날씨 및 위치 (오른쪽상단)-->
+        <img id="todayImg" />
+        <div>
+          <p id="temp"></p>
+          <p id="where">Korea</p>
+        </div>
+      </div>
+      <div id="center">
+        <div id="centerUp">
+          <p id="currentTime"></p>
+          <span id="todayText"></span>
+          <div>
+            <span id="userName">
+              <input type="text" id="inputName" autocomplete="off" />
+            </span>
+            <span>.</span>
+          </div>
+          <!--메인 날짜, 밑에 메모(시간 , 문구 2개 중 랜덤으로), 메모 옆에 인풋으로 이름작성가능한 곳 [더블클릭 수정]-->
+        </div>
+        <!--오늘 투두 하나생성-->
+        <div id="todayTodo">
+          <p id="today">What is your main goal for today?</p>
+          <p id="mainTodo">
+            <input type="text" id="todayGoal" autocomplete="off" />
+          </p>
+        </div>
+      </div>
+      <div id="centerBottom">
+        <p id="saying"></p>
+        <p id="CBman">- <span>누군가 명언쓴 사람</span> -</p>
+      </div>
+      <div id="leftBottom">
+        <!--사진 아이콘을 누르면 배경사진만 보이도록(왼쪽하단)-->
+      </div>
+      <div id="rightBottom">
+        <!--버튼을 누르면 간단한 투두리스트가 나오도록 : 로컬스토리지해야됨..(오른쪽하단)-->
+        <div id="popUp">
+          <div id="todoTop">
+            <span id="toDoTitle">ToDoList</span>
+            <span id="todoDay"></span>
+          </div>
+          <div id="todoContent">
+            <ul id="todoList"></ul>
+          </div>
+          <div id="todoFooter">
+            <input type="text" id="todoInput" placeholder="New Task" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
