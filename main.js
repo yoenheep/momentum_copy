@@ -1,5 +1,6 @@
 $(document).ready(function () {
   const miniTodos = JSON.parse(localStorage.getItem("miniTodos")) || [];
+  let todayTodo = JSON.parse(localStorage.getItem("todayTodo")) || {};
   // todos 출력
   miniTodos.forEach((i) => {
     addTodo(i.check, i.content);
@@ -10,6 +11,20 @@ $(document).ready(function () {
   getUserName();
   getDay();
   getWeather();
+  getTodayTodo();
+
+  // todayTodo 출력
+  function getTodayTodo() {
+    let day = new Date();
+
+    if (Object.keys(todayTodo).length === 0) {
+      return;
+    }
+
+    if (todayTodo.when == day.getDate()) {
+      addToday(todayTodo.check, todayTodo.content);
+    }
+  }
 
   // 랜덤 명언, 배경
   function randomObject() {
@@ -198,19 +213,29 @@ $(document).ready(function () {
     console.log(miniTodos);
   }
 
-  $("#todoList, #mainTodo").on(
-    {
-      mouseenter: function (e) {
-        e.stopPropagation();
-        $(this).find(".todoDelete").fadeIn(300);
-      },
-      mouseleave: function (e) {
-        e.stopPropagation();
-        $(this).find(".todoDelete").fadeOut(300);
-      },
+  $("#todoList .todo").on({
+    mouseenter: function (e) {
+      e.stopPropagation();
+      $(this).find(".todoDelete").fadeIn(300);
     },
-    ".todo"
-  );
+    mouseleave: function (e) {
+      e.stopPropagation();
+      $(this).find(".todoDelete").fadeOut(300);
+    },
+  });
+
+  $("#mainTodo").on({
+    mouseenter: function (e) {
+      e.stopPropagation();
+      $(this).find(".todoDelete").fadeIn(300);
+      $(this).find(".todoCheck").fadeIn(300);
+    },
+    mouseleave: function (e) {
+      e.stopPropagation();
+      $(this).find(".todoDelete").fadeOut(300);
+      $(this).find(".todoCheck").fadeOut(300);
+    },
+  });
 
   //투두삭제
   $("#todoList").on("click", ".todoDelete", function () {
@@ -220,11 +245,30 @@ $(document).ready(function () {
     localStorage.setItem("miniTodos", JSON.stringify(miniTodos));
   });
 
+  $("#mainTodo").on("click", ".todoDelete", function () {
+    localStorage.removeItem("todayTodo");
+    $("#mainTodo").empty();
+    const inputBox = $("<input>").attr({
+      type: "text",
+      id: "todayGoal",
+      autocomplete: "off",
+    });
+    $("#today").text("What is your main goal for today?");
+    $("#mainTodo").append(inputBox);
+  });
+
   // 체크버튼 눌렀을 때 (이벤트 위임 사용)
   $("#todoList").on("click", ".todoCheck", function () {
     let index = $(this).closest("li").index();
     miniTodos[index].check = $(this).is(":checked");
     localStorage.setItem("miniTodos", JSON.stringify(miniTodos));
+    todoChcked();
+  });
+
+  $("#mainTodo").on("click", ".todoCheck", function () {
+    console.log(todayTodo);
+    todayTodo.check = $(this).is(":checked");
+    localStorage.setItem("todayTodo", JSON.stringify(todayTodo));
     todoChcked();
   });
 
@@ -238,7 +282,7 @@ $(document).ready(function () {
       }
     });
 
-    $("#todayTodo .todoCheck").on("change", function () {
+    $("#mainTodo .todoCheck").each(function () {
       if ($(this).is(":checked")) {
         $(this).siblings(".todoSpan").addClass("checked");
       } else {
@@ -248,20 +292,23 @@ $(document).ready(function () {
   }
 
   $("#mainTodo").on("keyup", "#todayGoal", function (key) {
+    console.log("keyup1");
     if (key.keyCode == 13) {
-      let todayTodo = $("#todayGoal").val().trim();
-      if (todayTodo == "") {
+      let todayTodoTxt = $("#todayGoal").val().trim();
+      if (todayTodoTxt == "") {
         return;
       }
-
-      todayLocal(todayTodo);
+      console.log("keyup2");
+      todayLocal(todayTodoTxt);
     }
   });
 
   function todayLocal(todo) {
+    console.log("keyup3");
     let day = new Date();
-    let object = { check: false, content: todo, when: day.getDate };
-    localStorage.setItem("todayTodo", object);
+    let object = { check: false, content: todo, when: day.getDate() };
+    todayTodo = object;
+    localStorage.setItem("todayTodo", JSON.stringify(object));
     addToday(false, todo);
   }
 
@@ -275,7 +322,7 @@ $(document).ready(function () {
     const span = $("<span>").addClass("todoSpan").text(todo);
     const delBtn = $("<div>").addClass("todoDelete").text("✖");
 
-    $("#todayTodo .todo").append(checkBox, span, delBtn);
+    $("#mainTodo").append(checkBox, span, delBtn);
     $("#todayGoal").remove();
     $("#today").text("Today");
     todoChcked();
@@ -295,7 +342,6 @@ $(document).ready(function () {
       let imageurl = `./img/${skyIcon}.png`;
       $("#todayImg").attr("src", imageurl);
       $("#temp").text(temp + "º");
-      console.log(data);
     });
   }
 });

@@ -208,7 +208,7 @@ input:focus {
   margin-top: 3px;
   cursor: pointer;
 }
-.todoSpan {
+#todoList .todoSpan {
   flex-grow: 1;
   padding: 0 5px;
 }
@@ -236,6 +236,23 @@ input:focus {
   width: 100%;
 }
 
+/*mainTodo*/
+#mainTodo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#mainTodo .todoCheck {
+  width: 23px;
+  height: 23px;
+  display: none;
+}
+#mainTodo .todoSpan {
+  flex-grow: 1;
+}
+#mainTodo .todoDelete {
+  width: 23px;
+}
 @media screen and (min-width: 768px) {
   #todayTodo {
     width: 60%;
