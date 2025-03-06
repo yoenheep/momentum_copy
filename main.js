@@ -28,7 +28,6 @@ $(document).ready(function () {
 
   // 랜덤 명언, 배경
   function randomObject() {
-    let ran = Math.floor(Math.random() * 3);
     let object = [
       {
         bg: "./img/bg0.jpg",
@@ -46,6 +45,7 @@ $(document).ready(function () {
         who: "Ralph Waldo Emerson",
       },
     ];
+    let ran = Math.floor(Math.random() * object.length);
 
     $("#all").css("background-image", `url(${object[ran].bg})`);
     $("#saying").text(object[ran].saying);
