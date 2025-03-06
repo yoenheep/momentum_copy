@@ -213,7 +213,7 @@ $(document).ready(function () {
     console.log(miniTodos);
   }
 
-  $("#todoList .todo").on({
+  $("#todoList  .todo").on({
     mouseenter: function (e) {
       e.stopPropagation();
       $(this).find(".todoDelete").fadeIn(300);
